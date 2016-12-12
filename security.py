@@ -3,53 +3,47 @@
 
 import sys, getopt
 
-
+#encode the file given
 def encode(file):
     line_buffer = ""
     result = ""
     f = open(file, 'r')
     for line in f:
-        line_buffer = line[::-1]
-        for char in line_buffer:
-            #print(char)
-            result+=chr(ord(char) - 10)
+        line_buffer = line[::-1] #flip the line backwards
+        for char in line_buffer: #go thru each char in the line)
+            result+=chr(ord(char) - 10) #subtract 10 from the ascii value
             
+    #saves the result in encoded.txt
     f.close()
     f = open("encoded.txt", 'w')
     f.write(result)
     print("Encoded file @ encoded.txt")
 
-
+#decode the file given 
 def decode(file):
+    line_buffer = ''
     result = ''
     f = open(file, 'r')
     for line in f:
-        line_buffer = line[::-1]
+        line_buffer = line[::-1] #flip the line back arround
         for char in line_buffer:
-            result += (chr(ord(char) + 10))
-    print (result)
+            result += (chr(ord(char) + 10)) #add back the subtracted value
+    print (result) #print out the decoded result
 
 def main(argv):
-    file = ''
     try:
         opts, args = getopt.getopt(argv,"e:d:")
     except getopt.GetoptError:
         print ('security.py -d <file to decode>')
         print ('security.py -e <file to encode>')
         sys.exit(2)
-    for opt, arg in opts:
+    for opt, arg in opts: #arg will be the filename
         if opt in ("-d"):
             print("decoding...")
-            file = arg
-            decode(file)
+            decode(arg)
         elif opt in ("-e"):
             print("encoding...")
-            file = arg
-            print ('the file is: ')
-            print (file)
-            encode(file)
-         
-   
+            encode(arg)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
